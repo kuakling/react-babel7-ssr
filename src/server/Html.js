@@ -1,4 +1,5 @@
 import React from 'react'
+import { flushChunkNames } from 'react-universal-component/server'
 import flushChunks from 'webpack-flush-chunks'
 import faviconUrl from './images/favicon.ico'
 import config from '../shared/core/config'
@@ -15,9 +16,9 @@ export const Html = ({
     if (content == undefined) return null
     if (clientStats == undefined) return null
 
-    const chunks = flushChunks(clientStats)
-
-    const { scripts, stylesheets } = chunks
+    const chunkNames = flushChunkNames()
+    const chunks = flushChunks(clientStats, { chunkNames })
+    const { CssHash, scripts, stylesheets } = chunks
 
     const StyledComponent = () => styleTags
 
@@ -30,6 +31,7 @@ export const Html = ({
           <link rel={'shortcut icon'} href={faviconUrl} />
           {stylesheets.map(href => (<link key={href} rel="stylesheet" href={`${baseUrl}/${href}`} />))}
           <style type="text/css" dangerouslySetInnerHTML={{ __html: inlineCss }} />
+          <CssHash />
           <StyledComponent />
         </head>
         <body>
@@ -42,6 +44,7 @@ export const Html = ({
             id={appContainerId || 'root'}
             dangerouslySetInnerHTML={{ __html: content }}
           />
+          <CssHash />
           {scripts.map(src => (<script key={src} type="text/javascript" src={`${baseUrl}/${src}`} defer="" />))}
         </body>
       </html>

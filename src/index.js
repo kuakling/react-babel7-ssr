@@ -1,3 +1,5 @@
+// https://github.com/mikebars/react-loadable-boilerplate
+// https://github.com/mikebars/react-universal-component-boilerplate
 require('@babel/polyfill')
 const path = require('path')
 const fs = require('fs')

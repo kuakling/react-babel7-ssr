@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 
 import Home from '../components/Home'
-import About from '../components/About'
-import User from '../components/User'
 import NoMatch from '../components/NoMatch'
+import AsyncAbout from '../components/AsyncAbout'
+import AsyncUser from '../components/AsyncUser'
 
 import './app.css'
 
@@ -52,8 +52,8 @@ export default class App extends Component {
           <div className={`route-zone`}>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/about" component={About} />
-              <Route path="/user" component={User} />
+              <Route path="/about" component={AsyncAbout} />
+              <Route path="/user" component={AsyncUser} />
               <Route component={NoMatch} />
             </Switch>
           </div>
