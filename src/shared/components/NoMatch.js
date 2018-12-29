@@ -1,9 +1,14 @@
 import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.h1`
+  color: orangered;
+`
 
 export default function User() {
   return (
-    <h1>
+    <Wrapper>
       404 Not found !!
-    </h1>
+    </Wrapper>
   )
 }

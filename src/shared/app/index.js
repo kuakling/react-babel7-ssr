@@ -37,10 +37,13 @@ export default class App extends Component {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/about/">About</Link>
+              <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/users/">Users</Link>
+              <Link to="/user">User</Link>
+            </li>
+            <li>
+              <Link to="/no-match">No Match</Link>
             </li>
           </ul>
         </nav>
@@ -50,7 +53,7 @@ export default class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/about" component={About} />
-              <Route path="/:user" component={User} />
+              <Route path="/user" component={User} />
               <Route component={NoMatch} />
             </Switch>
           </div>

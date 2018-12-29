@@ -9,6 +9,7 @@ export const Html = ({
   content,
   clientStats,
   inlineCss,
+  styleTags,
 }) => {
   try {
     if (content == undefined) return null
@@ -17,6 +18,8 @@ export const Html = ({
     const chunks = flushChunks(clientStats)
 
     const { scripts, stylesheets } = chunks
+
+    const StyledComponent = () => styleTags
 
     return (
       <html>
@@ -27,6 +30,7 @@ export const Html = ({
           <link rel={'shortcut icon'} href={faviconUrl} />
           {stylesheets.map(href => (<link key={href} rel="stylesheet" href={`${baseUrl}/${href}`} />))}
           <style type="text/css" dangerouslySetInnerHTML={{ __html: inlineCss }} />
+          <StyledComponent />
         </head>
         <body>
           <noscript>You need to enable JavaScript to run this app.</noscript>

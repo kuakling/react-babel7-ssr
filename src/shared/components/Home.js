@@ -1,9 +1,15 @@
 import React from 'react'
+import styled from 'styled-components'
+
+const Wrapper = styled.section`
+  padding: 4em;
+  background: gray;
+`
 
 export default function Home() {
   return (
-    <div>
+    <Wrapper>
       Hello my route = HOME
-    </div>
+    </Wrapper>
   )
 }
