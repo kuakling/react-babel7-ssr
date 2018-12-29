@@ -1,4 +1,11 @@
 import React, { Component } from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
+
+import Home from '../components/Home'
+import About from '../components/About'
+import User from '../components/User'
+import NoMatch from '../components/NoMatch'
+
 import './app.css'
 
 export default class App extends Component {
@@ -20,12 +27,35 @@ export default class App extends Component {
   test = () => {
     alert('TEST')
   }
-  
+
   render() {
     return (
       <div>
-        Hello React {React.version}<br />
-        <button onClick={this.test} className="btn">Test button</button>
+        <nav className={`main-nav`}>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about/">About</Link>
+            </li>
+            <li>
+              <Link to="/users/">Users</Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="container">
+          <h1>Hello React {React.version}</h1>
+          <div className={`route-zone`}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route path="/:user" component={User} />
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+          <button onClick={this.test} className="btn">Test button</button>
+        </div>
       </div>
     )
   }
