@@ -31,7 +31,6 @@ export const Html = ({
           <link rel={'shortcut icon'} href={faviconUrl} />
           {stylesheets.map(href => (<link key={href} rel="stylesheet" href={`${baseUrl}/${href}`} />))}
           <style type="text/css" dangerouslySetInnerHTML={{ __html: inlineCss }} />
-          <CssHash />
           <StyledComponent />
         </head>
         <body>

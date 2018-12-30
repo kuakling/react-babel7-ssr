@@ -7,3 +7,4 @@ React 16, Webpack 4, Babel 7 and Server side rendering
 - React-Universal-Component (Code Splitting)
   - @babel/plugin-syntax-dynamic-import
   - babel-plugin-universal-import
+- Stylus (Update className to local name of component and create src/components/shared/style.global.styl for global css className)

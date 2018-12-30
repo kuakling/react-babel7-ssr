@@ -15,17 +15,26 @@ module.exports = merge(base, {
   module: {
     rules: [
       {
-        test: /\.(|css)$/,
-        exclude: [/node_modules/, ],
+        test: /\.(styl|css)$/,
+        exclude: [/node_modules/, /\.global\.styl/],
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              module: true,
+              modules: true,
               localIdentName: '[name]__[local]--[hash:base64:5]'
             }
           },
+          'stylus-loader',
+        ]
+      },
+      {
+        test: /\.global\.(styl|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'stylus-loader'
         ]
       },
     ],

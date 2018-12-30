@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
 
-import Home from '../components/Home'
-import NoMatch from '../components/NoMatch'
-import AsyncAbout from '../components/AsyncAbout'
-import AsyncUser from '../components/AsyncUser'
+import Home from 'app-components/Home'
+import NoMatch from 'app-components/NoMatch'
+import AsyncAbout from 'app-components/AsyncAbout'
+import AsyncUser from 'app-components/AsyncUser'
+import AsyncStylus from 'app-components/AsyncStylus'
 
-import './app.css'
+import '../style.global.styl'
+import css from './app.css'
 
 export default class App extends Component {
   componentDidMount = () => {
@@ -43,17 +45,21 @@ export default class App extends Component {
               <Link to="/user">User</Link>
             </li>
             <li>
+              <Link to="/stylus">Stylus</Link>
+            </li>
+            <li>
               <Link to="/no-match">No Match</Link>
             </li>
           </ul>
         </nav>
         <div className="container">
-          <h1>Hello React {React.version}</h1>
+          <h1 className={css.title}>Hello React {React.version}</h1>
           <div className={`route-zone`}>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/about" component={AsyncAbout} />
               <Route path="/user" component={AsyncUser} />
+              <Route path="/stylus" component={AsyncStylus} />
               <Route component={NoMatch} />
             </Switch>
           </div>

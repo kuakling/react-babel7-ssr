@@ -38,7 +38,7 @@ const clientConfig = merge( common, {
     new StatsWebpackPlugin('stats.json'),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[name].[hash].css'
+      chunkFilename: 'css/[id].[hash].css'
     })
   ]
 })

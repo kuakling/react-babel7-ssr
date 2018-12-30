@@ -12,15 +12,29 @@ module.exports = merge(base, {
     rules: [
       {
         test: /\.(styl|css)$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, /\.global\.styl/],
         use: [
           {
-            loader: 'css-loader/locals',
+            loader: 'css-loader',
             options: {
-              module: true,
+              exportOnlyLocals: true,
+              modules: true,
               localIdentName: '[name]__[local]--[hash:base64:5]'
-            }
+            },
           },
+          'stylus-loader',
+        ]
+      },
+      {
+        test: /\.global\.(styl|css)$/,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              exportOnlyLocals: true,
+            },
+          },
+          'stylus-loader'
         ]
       },
     ]

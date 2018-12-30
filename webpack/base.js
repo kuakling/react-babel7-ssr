@@ -29,7 +29,7 @@ const base = {
     ]
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: [ '.mjs', '.js', '.json', '.jsx', '.css' ],
     alias: {
       'app-src': path.resolve(__dirname, '..', 'src'),
       'app-static': path.resolve(__dirname, '..', 'static'),
