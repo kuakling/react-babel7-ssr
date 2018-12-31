@@ -6,7 +6,7 @@ const fs = require('fs')
 const webpack = require('webpack')
 const express = require('express')
 const chalk = require('chalk')
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 
 const baseUrl = process.env.REACT_APP_BASE_URL ? `/${process.env.REACT_APP_BASE_URL}` : ''
 

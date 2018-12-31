@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 
@@ -20,6 +20,7 @@ const mapStateToProps = ({ appState }) => ({
   appState
 })
 
+@withRouter
 @connect(mapStateToProps, {
   setLockScreen
 })
