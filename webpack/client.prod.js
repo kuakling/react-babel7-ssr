@@ -8,11 +8,15 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 const clientConfig = merge( common, {
   mode: 'production',
-  devtool: 'source-map',
+  devtool: false,
   output: {
     path: resolvePath('../dist/client'),
     filename: 'js/[name].[hash].js',
     publicPath: process.env.REACT_APP_BASE_URL ? `/${process.env.REACT_APP_BASE_URL}/` : '/',
+  },
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   },
   optimization: {
     minimizer: [
@@ -26,10 +30,15 @@ const clientConfig = merge( common, {
     },
     splitChunks: {
       cacheGroups: {
-        commons: {
+        // commons: {
+        //   chunks: 'all',
+        //   name: 'vendor',
+        //   test: /[\\/]node_modules[\\/]/,
+        // },
+        vendor: {
           chunks: 'all',
           name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
         },
       },
     },
@@ -38,7 +47,7 @@ const clientConfig = merge( common, {
     new StatsWebpackPlugin('stats.json'),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[id].[hash].css'
+      chunkFilename: 'css/[name].[hash].css'
     })
   ]
 })

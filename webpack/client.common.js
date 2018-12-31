@@ -2,6 +2,8 @@ const resolvePath = path => require('path').resolve(__dirname, path)
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const merge = require('webpack-merge')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const chalk = require('chalk')
 const env = require('./env')
 const base = require('./base')
 
@@ -43,6 +45,10 @@ module.exports = merge(base, {
     new webpack.DefinePlugin({
       IS_SERVER: false,
       ...env()
+    }),
+    new ProgressBarPlugin({
+      format: '  🏃 build client [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+      clear: false
     }),
   ]
 })

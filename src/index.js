@@ -5,6 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 const express = require('express')
+const chalk = require('chalk')
 
 const baseUrl = process.env.REACT_APP_BASE_URL ? `/${process.env.REACT_APP_BASE_URL}` : ''
 
@@ -19,7 +20,8 @@ let isBuild = false
 const done = () => {
   return !isBuild && app.listen(4000, () => {
     isBuild = true
-    console.log('Listening @ http://localhost:4000')
+    console.log(chalk.greenBright('✅ Server started.'))
+    console.log(chalk.cyanBright('🌐 Listening @ http://localhost:4000'))
   })
 }
 
@@ -27,17 +29,25 @@ const serverRendererOptions = {
   inlineCss: fs.readFileSync(path.resolve(__dirname, 'server', 'css', 'main.css'), 'utf8').replace(/\s+/g, " ").trim()
 }
 
-if (process.env.SERVE === 'true') {
+const runProductionServer = () => {
+  console.log(chalk.yellowBright('▶ Starting Production Server...'))
   const clientConfig = require('../webpack/client.prod')
+  const serverConfig = require('../webpack/server.prod')
   const publicPath = clientConfig.output.publicPath
   const outputPath = clientConfig.output.path
+  const statsFile = path.resolve(outputPath, 'stats.json')
+  const serverFile = path.resolve(serverConfig.output.path, serverConfig.output.filename)
 
-  const clientStats = require('../dist/client/stats.json')
-  const serverRender = require('../dist/server/mainServer.js').default
+  const clientStats = require(statsFile)
+  const serverRender = require(serverFile).default
   app.use(publicPath, express.static(outputPath))
   app.use(serverRender({ clientStats, ...serverRendererOptions }))
 
   done()
+}
+
+if (process.env.SERVE === 'true') {
+  runProductionServer()
 } else {
   if (DEV) {
     const clientConfig = require('../webpack/client.dev')
@@ -58,26 +68,17 @@ if (process.env.SERVE === 'true') {
   } else {
     const clientConfig = require('../webpack/client.prod')
     const serverConfig = require('../webpack/server.prod')
-    const publicPath = clientConfig.output.publicPath
-    const outputPath = clientConfig.output.path
 
     const compiler = webpack([clientConfig, serverConfig])
-    compiler.run((err, stats) => {
+    compiler.run((err) => {
       if (err) {
-        console.log('Webpack compiler encountered a fatal error.', err)
+        console.log(chalk.redBright('🤬 Webpack compiler encountered a fatal error.'), err)
         return reject(err)
       }
+      // console.log('Build Complete')
       if (process.env.RUN === 'true') {
-        const clientStats = stats.toJson().children[0]
-        const serverRender = require('../dist/server/mainServer.js').default
-        app.use(publicPath, express.static(outputPath))
-        app.use(serverRender({ clientStats, ...serverRendererOptions }))
-
-        done()
-      } else {
-        console.log('Build Complete')
+        runProductionServer()
       }
-
     })
   }
 }

@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const chalk = require('chalk')
 const base = require('./base')
 
 module.exports = merge(base, {
@@ -45,6 +47,10 @@ module.exports = merge(base, {
     }),
     new webpack.DefinePlugin({
       IS_SERVER: true
+    }),
+    new ProgressBarPlugin({
+      format: '  🏃 build server [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+      clear: false
     }),
   ],
 })

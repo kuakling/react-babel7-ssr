@@ -4,7 +4,7 @@ const common = require('./server.common')
 
 const serverConfig = merge(common, {
   mode: 'production',
-  devtool: 'source-map',
+  devtool: false,
   entry: [
     resolvePath('../src/server/index.js')
   ],
