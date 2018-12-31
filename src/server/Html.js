@@ -12,6 +12,7 @@ export const Html = ({
   inlineCss,
   styleTags,
   helmet,
+  reduxState,
 }) => {
   try {
     if (content == undefined) return null
@@ -50,6 +51,7 @@ export const Html = ({
             dangerouslySetInnerHTML={{ __html: content }}
           />
           <CssHash />
+          <script dangerouslySetInnerHTML={{ __html: `window.__REDUX_STATE__ = ${JSON.stringify(reduxState)}` }} />
           {scripts.map(src => (<script key={src} type="text/javascript" src={`${baseUrl}/${src}`} defer="" />))}
         </body>
       </html>

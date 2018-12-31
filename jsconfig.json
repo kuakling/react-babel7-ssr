@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "App/*": ["src/*"],
+      "app-src/*": ["src/*"],
+      "app-static/*": ["static/*"],
+      "app-components/*": ["src/shared/components/*"]
+    }
+  },
+  "exclude": ["dist"],
+  "eslint.packageManager": "yarn"
+}

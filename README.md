@@ -8,4 +8,12 @@ React 16, Webpack 4, Babel 7 and Server side rendering
   - @babel/plugin-syntax-dynamic-import
   - babel-plugin-universal-import
 - Stylus (Update className to local name of component and create src/components/shared/style.global.styl for global css className)
+  - stylus
+  - stylus-loader
 - React-Helmet
+- Redux
+  - react-redux
+  - redux
+  - redux-thunk
+  - @babel/plugin-proposal-decorators (use decorator of HOC)
+  - cookie-parser (Remember app-state for SSR)

@@ -6,10 +6,13 @@ const fs = require('fs')
 const webpack = require('webpack')
 const express = require('express')
 const chalk = require('chalk')
+var cookieParser = require('cookie-parser')
 
 const baseUrl = process.env.REACT_APP_BASE_URL ? `/${process.env.REACT_APP_BASE_URL}` : ''
 
 const app = express()
+
+app.use(cookieParser())
 
 app.use(`${baseUrl}/static`, express.static(path.resolve(__dirname, '../static')))
 
