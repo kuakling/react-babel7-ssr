@@ -1,7 +1,8 @@
 import React from 'react'
-import { renderToString, renderToStaticNodeStream } from 'react-dom/server'
+import { renderToString, renderToNodeStream } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { ServerStyleSheet } from 'styled-components'
+import { Helmet } from 'react-helmet'
 import Html from './Html'
 import App from '../shared/app'
 
@@ -27,16 +28,19 @@ export default ({ clientStats, inlineCss }) => async (req, res, next) => {
 
   const styleTags = styleSheet.getStyleElement()
 
+  const helmet = Helmet.renderStatic()
+
   const props = {
     content,
     clientStats,
     inlineCss,
     styleTags,
+    helmet,
   }
 
   const element = <Html {...props} />
 
-  const stream = renderToStaticNodeStream(element)
+  const stream = renderToNodeStream(element)
 
   res.type('html')
 

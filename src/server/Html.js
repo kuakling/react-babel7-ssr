@@ -11,6 +11,7 @@ export const Html = ({
   clientStats,
   inlineCss,
   styleTags,
+  helmet,
 }) => {
   try {
     if (content == undefined) return null
@@ -20,20 +21,25 @@ export const Html = ({
     const chunks = flushChunks(clientStats, { chunkNames })
     const { CssHash, scripts, stylesheets } = chunks
 
-    const StyledComponent = () => styleTags
+    const htmlAttributes = helmet.htmlAttributes.toComponent()
+    const bodyAttributes = helmet.bodyAttributes.toComponent()
 
     return (
-      <html>
+      <html {...htmlAttributes}>
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+          {helmet.meta.toComponent()}
           <link rel={'shortcut icon'} href={faviconUrl} />
+          {helmet.link.toComponent()}
           {stylesheets.map(href => (<link key={href} rel="stylesheet" href={`${baseUrl}/${href}`} />))}
           <style type="text/css" dangerouslySetInnerHTML={{ __html: inlineCss }} />
-          <StyledComponent />
+          {helmet.style.toComponent()}
+          {styleTags}
+          {helmet.title.toComponent()}
         </head>
-        <body>
+        <body {...bodyAttributes}>
           <noscript>You need to enable JavaScript to run this app.</noscript>
           <div id="loading-indicator">
             <div className="loader-circle"></div>

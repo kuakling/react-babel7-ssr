@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Helmet from 'react-helmet'
 import styl from './stylus.styl'
 import css from './stylus.css'
 
@@ -11,6 +12,7 @@ const Wrapper = styled.h1`
 export default () => {
   return (
     <Wrapper className={`${styl.from_stylus} ${css.from_css} my_stylus_global`}>
+      <Helmet title="Awesome fusion style" titleTemplate={null} />
       Using 
       <ul>
         <li>Styled-Components</li>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Switch, Route, Link } from 'react-router-dom'
+import Helmet from 'react-helmet'
 
 import Home from 'app-components/Home'
 import NoMatch from 'app-components/NoMatch'
@@ -33,6 +34,11 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        <Helmet
+          htmlAttributes={{ "lang": "th" }}
+          titleTemplate="%s :: Site name"
+          defaultTitle="Default Page Title"
+        />
         <nav className={`main-nav`}>
           <ul>
             <li>
