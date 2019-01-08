@@ -1,3 +1,4 @@
+const resolvePath = path => require('path').resolve(__dirname, path)
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
@@ -10,6 +11,9 @@ module.exports = merge(base, {
   externals: {
     'node-fetch': 'isomorphic-fetch'
   },
+  entry: [
+    resolvePath('../src/server/index.js'),
+  ],
   module: {
     rules: [
       {

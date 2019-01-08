@@ -7,24 +7,32 @@ const webpack = require('webpack')
 const express = require('express')
 const chalk = require('chalk')
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const restfulApi = require('./restful-api')
 
 const baseUrl = process.env.REACT_APP_BASE_URL ? `/${process.env.REACT_APP_BASE_URL}` : ''
+
+const DEV = process.env.NODE_ENV === 'development'
+
+const PORT = 4000
 
 const app = express()
 
 app.use(cookieParser())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+app.use(cookieParser())
 
 app.use(`${baseUrl}/static`, express.static(path.resolve(__dirname, '../static')))
 
-const DEV = process.env.NODE_ENV === 'development'
-
 let isBuild = false
-
 const done = () => {
-  return !isBuild && app.listen(4000, () => {
+  return !isBuild && app.listen(PORT, () => {
     isBuild = true
-    console.log(chalk.greenBright('✅ Server started.'))
-    console.log(chalk.cyanBright('🌐 Listening @ http://localhost:4000'))
+    console.log(chalk.greenBright(`✅ Server started.`))
+    console.log(chalk.cyanBright(`🌐 Listening @ http://localhost:${PORT}`))
   })
 }
 
@@ -33,7 +41,12 @@ const serverRendererOptions = {
 }
 
 const runProductionServer = () => {
-  console.log(chalk.yellowBright('▶ Starting Production Server...'))
+  console.log(chalk.yellowBright(`▶ Starting Production Server...`))
+
+  restfulApi.map(route => {
+    app.use(route.url, route.middleware)
+  })
+
   const clientConfig = require('../webpack/client.prod')
   const serverConfig = require('../webpack/server.prod')
   const publicPath = clientConfig.output.publicPath
@@ -75,7 +88,7 @@ if (process.env.SERVE === 'true') {
     const compiler = webpack([clientConfig, serverConfig])
     compiler.run((err) => {
       if (err) {
-        console.log(chalk.redBright('🤬 Webpack compiler encountered a fatal error.'), err)
+        console.log(chalk.redBright(`🤬 Webpack compiler encountered a fatal error.`), err)
         return reject(err)
       }
       // console.log('Build Complete')

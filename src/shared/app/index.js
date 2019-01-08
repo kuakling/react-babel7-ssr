@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader'
 import { Switch, Route, Link, withRouter } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
@@ -20,11 +21,13 @@ const mapStateToProps = ({ appState }) => ({
   appState
 })
 
-@withRouter
-@connect(mapStateToProps, {
-  setLockScreen
-})
-export default class App extends Component {
+// @hot(module)
+// @withRouter
+// @connect(mapStateToProps, {
+//   setLockScreen
+// })
+// export default class App extends Component {
+class App extends Component {
   componentDidMount = () => {
     const ele = document.getElementById('loading-indicator')
     const loaderText = document.getElementById('loader-text')
@@ -91,8 +94,16 @@ export default class App extends Component {
           <button onClick={this.test} className="btn">Test button</button>
         </div>
 
-        <button className={css.btn__lock_screen} onClick={() => this.props.setLockScreen() }>Lock screen</button>
+        <button className={css.btn__lock_screen} onClick={() => this.props.setLockScreen()}>Lock screen</button>
       </div>
     )
   }
 }
+
+export default hot(module)(
+  withRouter(
+    connect(mapStateToProps, {
+      setLockScreen
+    })(App)
+  )
+)

@@ -9,6 +9,7 @@ const base = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         options: {
+          babelrc: false,
           presets: [
             ["@babel/preset-react"],
             ["@babel/preset-env"],
@@ -20,6 +21,7 @@ const base = {
             ['universal-import', {
               // disableWarnings: true
             }],
+            ["react-hot-loader/babel"]
           ],
         }
       },

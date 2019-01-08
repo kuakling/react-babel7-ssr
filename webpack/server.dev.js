@@ -5,9 +5,6 @@ const common = require('./server.common')
 const serverConfig = merge(common, {
   mode: 'development',
   devtool: 'eval',
-  entry: [
-    resolvePath('../src/server/index.js')
-  ],
   output: {
     libraryTarget: 'commonjs2',
     filename: 'mainServer.js',
