@@ -24,3 +24,8 @@ React 16, Webpack 4, Babel 7 and Server side rendering
     - example 1 root filder: routeXxx.js ==> /xxx
     - example 2 sub folder: alphabet/routeAbc.js ==> /alphabet/abc
     - example 3 convert route camelcase to dash: AsiaAnimal/routeReptileFamily.js ==> /asia-animal/reptile-family
+- Fetch data from restful API on login page
+  - axios
+  - jsonwebtoken
+  - cors
+  - body-parser

@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import chalk from 'chalk'
@@ -8,6 +9,7 @@ const app = express()
 
 const PORT = 4001
 
+app.use(cors())
 app.use( bodyParser.json() )        // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true

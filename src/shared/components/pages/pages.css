@@ -1,0 +1,15 @@
+.title{
+  color: blueviolet;
+}
+
+.btn__lock_screen {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background-color: orangered;
+  padding: 10px;
+  border: darkred 1px solid;
+  outline-width: 0;
+  cursor: pointer;
+  color: white;
+}
