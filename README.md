@@ -29,3 +29,11 @@ React 16, Webpack 4, Babel 7 and Server side rendering
   - jsonwebtoken
   - cors
   - body-parser
+- Connect MySql Database, created user model
+  - mysql2
+  - sequelize
+- In API change login by array data to mysql data
+- In frontend 
+  - axios for request API 
+  - set authorization header
+  - set current user to redux
