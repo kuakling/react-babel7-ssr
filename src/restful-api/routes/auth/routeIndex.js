@@ -1,32 +1,46 @@
 import express from 'express'
-import users from './users.json'
 import jwt from 'jsonwebtoken'
 import config from '../../../shared/core/config'
+import { authentication, getUsers } from './models'
 const router = express.Router()
 
+const defaultPassword = '123456'
 router.get('/', (req, res) => {
-  res.send('Please Post username and password <br><pre>' + JSON.stringify(users, null, 2)+'</pre>')
+  res.send('Please Post username and password')
 })
 
-router.get('/show-users', (req, res) => {
-  res.send(users)
+router.get('/test-auth', (req, res) => {
+  const success = !!req.headers.authorization
+  if(!success) res.status(405)
+  res.send({ success })
 })
 
-router.post('/', (req, res) => {
+router.get('/show-users', async (req, res) => {
+  const users = await getUsers()
+  const response = users.map(u => ({
+    id: u.id,
+    username: u.username,
+    email: u.email,
+    defaultPassword
+  }))
+  res.send(response)
+})
+
+router.post('/', async (req, res) => {
   const { username, password } = req.body
-  const user = users.find(o => o.username === username);
-  if (user && user.password == password) {
+  const authenticated = await authentication({ username, password })
+  if (authenticated) {
     const responseUser = {
-      id: user.id,
-      username: user.username
+      id: authenticated.id,
+      username: authenticated.username
     }
     return res.send({
-      authenticated: true,
+      success: true,
       token: jwt.sign(responseUser, config.jwt.secretKey),
       user: responseUser
     })
   }
-  res.status(401).send({authenticated: false, token: null, user: null})
+  res.status(401).send({ success: false, token: null, user: null })
 })
 
 

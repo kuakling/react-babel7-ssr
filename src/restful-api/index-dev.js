@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import chalk from 'chalk'
 import routes from './routes'
+import models from './db/mysql/models'
 
 const app = express()
 
@@ -17,6 +18,21 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(cookieParser())
 routes.map(route => {
   app.use(route.url, route.middleware)
+})
+
+
+models.sequelize
+.authenticate()
+.then(() => {
+  console.log('Connection has been established successfully.');
+  models.sequelize.sync().then(function () {
+    console.log('Nice! Database looks fine')
+  }).catch(function (err) {
+    console.log(err.message, "Something went wrong with the Database Update!")
+  })
+})
+.catch(err => {
+  console.error('Unable to connect to the database:', err);
 })
 
 app.listen(PORT, () => {

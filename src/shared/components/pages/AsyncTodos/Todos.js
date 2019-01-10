@@ -24,7 +24,7 @@ const mapStateToProps = ({ todos }) => ({
 @connect(mapStateToProps, {
   addTodo
 })
-export default class WithRedux extends Component {
+export default class Todos extends Component {
 
   handleAddTodoClick = () => {
     this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);

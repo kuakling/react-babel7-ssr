@@ -5,8 +5,11 @@ import { ServerStyleSheet } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import { Provider } from 'react-redux'
 import configureStore from 'app-src/shared/redux/configure-store'
-import { defaultState } from 'app-src/shared/redux/reducers/app-state'
+import { defaultState as defaultAppState } from 'app-src/shared/redux/reducers/app-state'
+import { defaultState as defaultCurrentUser } from 'app-src/shared/redux/reducers/current-user'
+import { decodeJWT } from 'app-src/shared/core/helpers'
 import Html from './Html'
+import config from 'app-src/shared/core/config'
 import App from 'app-src/shared/app'
 
 export default ({ clientStats, inlineCss }) => async (req, res, next) => {
@@ -19,9 +22,13 @@ export default ({ clientStats, inlineCss }) => async (req, res, next) => {
   }
 
   const styleSheet = new ServerStyleSheet()
-
+  
+  const token = req.cookies && req.cookies[config.jwt.name] || null
+  const user = !!token ? decodeJWT(token) : defaultCurrentUser
+  
   const reduxState = {
-    appState: req.cookies.appState && JSON.parse(req.cookies.appState) || defaultState,
+    appState: req.cookies.appState && JSON.parse(req.cookies.appState) || defaultAppState,
+    currentUser: user,
     todos: [{
       id: 1,
       name: 'Walk the dog'

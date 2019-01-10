@@ -18,7 +18,7 @@ const Wrapper = styled.section`
   }
 `
 
-export default function User() {
+export default function About() {
   return (
     <Wrapper>
       <Helmet title="MY INFO" />

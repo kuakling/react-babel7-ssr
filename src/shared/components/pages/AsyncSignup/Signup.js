@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Helmet from 'react-helmet'
 import axios from 'axios'
-import { connect } from 'react-redux'
-
-import { setCurrentUser } from 'app-src/shared/redux/actions/current-user'
 import config from 'app-src/shared/core/config'
 
 const Wrapper = styled.section`
@@ -21,17 +19,13 @@ const Wrapper = styled.section`
     border-radius: 20px;
     padding: 20px;
     background-color: #0e0e0e;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
 
     .title {
       margin-top: 0;
       text-align: center;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"], input[type="password"], input[type="email"] {
       color: #fff;
       display: block;
       background-color: rgba(255, 255, 255, .15);
@@ -51,18 +45,16 @@ const Wrapper = styled.section`
 
 .btn-secondary {
   background-color: rgba(108, 117, 125, .25);
+  margin-left: 10px
 }
 `
 
-@connect(({ currentUser }) => ({ currentUser }), {
-  setCurrentUser
-})
-export default class Login extends Component {
+@connect(({ currentUser }) => ({ currentUser }))
+export default class Signup extends Component {
   state = {
     username: '',
     password: '',
-    users: '',
-    showUsers: false
+    email: '',
   }
 
   handleChange = e => {
@@ -75,29 +67,13 @@ export default class Login extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${config.restfulApi.host}/rest/auth`, this.state)
-      const { success, token } = response.data
-      if (success && !!token) {
-        this.props.setCurrentUser(token)
-      }
+      const response = await axios.post(`${config.restfulApi.host}/rest/signup`, this.state)
+      console.log(response)
+      alert(`Congratulation. ${response.data.user.username}`)
     } catch (error) {
       alert(`Error ${error.response.status}: ${error.response.statusText}`)
       console.error(error.response.data)
     }
-  }
-
-  handleShowUsers = async e => {
-    e.preventDefault()
-    this.setState({
-      showUsers: !this.state.showUsers
-    })
-  }
-
-  componentDidMount = async () => {
-    const response = await axios.get(`${config.restfulApi.host}/rest/auth/show-users`, this.state)
-    this.setState({
-      users: response.data
-    })
   }
 
 
@@ -108,14 +84,18 @@ export default class Login extends Component {
     return (
       <Wrapper>
         <Helmet>
-          <title>Login</title>
-          <meta name="description" content="Login" />
+          <title>Signup</title>
+          <meta name="description" content="Signup" />
         </Helmet>
         <form onSubmit={this.handleSubmit}>
-          <h3 className={`title`}>Login</h3>
+          <h3 className={`title`}>Signup</h3>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input type="text" value={this.state.username} onChange={this.handleChange} className="form-control" id="username" name="username" placeholder="Username" autoFocus />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">e-Mail</label>
+            <input type="email" value={this.state.email} onChange={this.handleChange} className="form-control" id="email" name="email" placeholder="e-Mail" />
           </div>
           <div className="form-group">
             <label htmlFor="Password">Password</label>
@@ -123,13 +103,9 @@ export default class Login extends Component {
           </div>
           <div className="form-group">
             <Link to={`/`} className="btn btn-secondary">Home</Link>
-            <button type="submit" className="btn btn-primary">Login</button>
-            <button type="button" className="btn btn-secondary" onClick={this.handleShowUsers}>Sow Users</button>
+            <button type="submit" className="btn btn-primary">Signup</button>
           </div>
         </form>
-        <div className="users" style={{ display: this.state.showUsers ? 'block' : 'none' }}>
-          <pre>{JSON.stringify(this.state.users, null, 2)}</pre>
-        </div>
       </Wrapper>
     )
   }

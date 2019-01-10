@@ -4,14 +4,18 @@ import { withRouter } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 
+import config from 'app-src/shared/core/config'
+
 import Routes from '../components/Routes'
 
 import LockScreen from 'app-components/LockScreen'
+import { setCurrentUser } from 'app-src/shared/redux/actions/current-user'
 
 import '../style.global.styl'
 
-const mapStateToProps = ({ appState }) => ({
-  appState
+const mapStateToProps = ({ appState, currentUser }) => ({
+  appState,
+  currentUser
 })
 class App extends Component {
   componentDidMount = () => {
@@ -26,6 +30,11 @@ class App extends Component {
         // remove from DOM
         ele.outerHTML = ''
       }, 1000)
+    }
+
+    const token = window.localStorage.getItem(config.jwt.name)
+    if(!!token){
+      this.props.setCurrentUser(token)
     }
   }
 
@@ -47,6 +56,8 @@ class App extends Component {
 
 export default hot(module)(
   withRouter(
-    connect(mapStateToProps)(App)
+    connect(mapStateToProps, {
+      setCurrentUser
+    })(App)
   )
 )
